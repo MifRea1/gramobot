@@ -28,5 +28,5 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
 
 if __name__ == '__main__':
     bot = telegram.Bot(token=os.environ.get('BOT_TOKEN', ''))
-    httpd = HTTPServer(('gramobot.herokuapp.com', 8000), SimpleHTTPRequestHandler)
+    httpd = HTTPServer(('0.0.0.0', 5000), SimpleHTTPRequestHandler)
     httpd.serve_forever()
