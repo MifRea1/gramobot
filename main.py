@@ -1,7 +1,7 @@
 import os
 import telegram
 
-bot = telegram.Bot(token=os.environ["TELEGRAM_TOKEN"])
+bot = telegram.Bot(token=os.environ.get('BOT_TOKEN', ''))
 
 
 def webhook(request):
