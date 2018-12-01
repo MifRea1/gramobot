@@ -17,6 +17,9 @@ logger = logging.getLogger('telegram.bot')
 
 class Commands():
     debugOn = False
+    def __init__(self):
+        self.debugOn = False
+        return self
     def start(self, chat_id):
         TelegramBot.sendMessage(chat_id, 'Поехали!')
         return self
@@ -50,10 +53,11 @@ class CommandReceiveView(View):
         except ValueError:
             return HttpResponseBadRequest('Invalid request body')
         else:
-            chat_id = payload['message']['chat']['id']
-            cmd = payload['message'].get('text')
-            if cmd:
-                func = commands.get(cmd.split()[0].lower())
+            message = payload['message']
+            chat_id = message['chat']['id']
+            text = message.get('text')
+            if text:
+                func = commands.get(text.split()[0].lower())
                 if func:
                     func(chat_id)
                 else:
@@ -61,7 +65,7 @@ class CommandReceiveView(View):
                         TelegramBot.sendMessage(chat_id, 'DEBUG MODE')
                         TelegramBot.sendMessage(chat_id, raw)
                     else:
-                        TelegramBot.sendMessage(chat_id, cmd)
+                        TelegramBot.sendMessage(chat_id, text)
 
         return JsonResponse({}, status=200)
 
