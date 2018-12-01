@@ -24,7 +24,7 @@ class Commands():
     def help(chat_id):
         pass
     def debug(self):
-        self.debug = not self.__debug
+        self.debug = not self.debug
 
 class CommandReceiveView(View):
     def post(self, request, bot_token):
