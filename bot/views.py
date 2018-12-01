@@ -13,7 +13,7 @@ TelegramBot = telepot.Bot(settings.TELEGRAM_BOT_TOKEN)
 
 logger = logging.getLogger('telegram.bot')
 
-GREETINGS_KEYWORDS = ('hi', 'hello', 'привет', 'прив')
+GREETINGS_KEYWORDS = ('hi', 'hello', 'привет', 'прив',)
 GREETINGS_RESPONSES = ['ни хао', 'бонжур', 'привет']
 
 class Commands():
@@ -27,10 +27,11 @@ class Commands():
         TelegramBot.sendMessage(chat_id, 'Приехали.')
 
     def timer(self, chat_id, time):
-        TelegramBot.sendMessage(chat_id, 'Таймер установлен на ' + str(time) + 'минут.')
+        TelegramBot.sendMessage(chat_id, 'Таймер установлен на ' + str(time) + ' минут.')
 
     def main(self, chat_id, text):
-        for word in text.words:
+        words = text.split(' ')
+        for word in words:
             if word.lower() in GREETINGS_KEYWORDS:
                 TelegramBot.sendMessage(chat_id, random.choice(GREETINGS_RESPONSES))
                 break
