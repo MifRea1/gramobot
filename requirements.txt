@@ -2,4 +2,4 @@ django
 gunicorn
 django-heroku
 django-environ
-python-telegram-bot==11.1.0
+telepot
