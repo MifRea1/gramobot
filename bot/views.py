@@ -17,15 +17,15 @@ logger = logging.getLogger('telegram.bot')
 
 class Commands():
     debug = False
-    def start(chat_id):
+    def start(self, chat_id):
         TelegramBot.sendMessage(chat_id, 'Поехали!')
         return
-    def stop(chat_id):
+    def stop(self, chat_id):
         TelegramBot.sendMessage(chat_id, 'Приехали.')
         return
-    def help(chat_id):
+    def help(self, chat_id):
         return
-    def debug(self):
+    def debug(self, chat_id):
         self.debug = not self.debug
         return
 
