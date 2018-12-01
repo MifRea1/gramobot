@@ -52,15 +52,16 @@ class CommandReceiveView(View):
         else:
             chat_id = payload['message']['chat']['id']
             cmd = payload['message'].get('text')
-            func = commands.get(cmd.split()[0].lower())
-            if func:
-                func(chat_id)
-            else:
-                if c.debugOn:
-                    TelegramBot.sendMessage(chat_id, 'DEBUG MODE')
-                    TelegramBot.sendMessage(chat_id, raw)
+            if cmd:
+                func = commands.get(cmd.split()[0].lower())
+                if func:
+                    func(chat_id)
                 else:
-                    TelegramBot.sendMessage(chat_id, cmd)
+                    if c.debugOn:
+                        TelegramBot.sendMessage(chat_id, 'DEBUG MODE')
+                        TelegramBot.sendMessage(chat_id, raw)
+                    else:
+                        TelegramBot.sendMessage(chat_id, cmd)
 
         return JsonResponse({}, status=200)
 
