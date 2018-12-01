@@ -27,6 +27,14 @@ class Commands():
 
     def stop(self, chat_id):
         TelegramBot.sendMessage(chat_id, 'Приехали.')
+    def main(self, chat_id, text):
+        GREETINGS_KEYWORDS = ('hi', 'hello', 'привет', 'прив')
+        GREETINGS_RESPONSES = ['ни хао', 'бонжур', 'привет']
+        for word in text.words:
+            if word.lower() in GREETINGS_KEYWORDS:
+                TelegramBot.sendMessage(chat_id, random.choice(GREETINGS_RESPONSES))
+        else:
+            TelegramBot.sendMessage(chat_id, text)
 
     # def debug(self, chat_id):
     #     if os.environ["DEBUG"] == "0":
@@ -68,7 +76,7 @@ class CommandReceiveView(View):
                     # if os.environ["DEBUG"] == "0":
                     #     TelegramBot.sendMessage(chat_id, raw)
                     # else:
-                    TelegramBot.sendMessage(chat_id, text)
+                    c.main(chat_id, text)
 
         return JsonResponse({}, status=200)
 
