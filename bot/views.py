@@ -16,7 +16,7 @@ logger = logging.getLogger('telegram.bot')
 
 
 class Commands():
-    debug = False
+    debugOn = False
     def start(self, chat_id):
         TelegramBot.sendMessage(chat_id, 'Поехали!')
         return self
@@ -26,7 +26,7 @@ class Commands():
     def help(self, chat_id):
         return self
     def debug(self, chat_id):
-        self.debug = not self.debug
+        self.debugOn = not self.debugOn
         return self
 
 class CommandReceiveView(View):
@@ -56,7 +56,7 @@ class CommandReceiveView(View):
             if func:
                 func(chat_id)
             else:
-                if c.debug:
+                if c.debugOn:
                     TelegramBot.sendMessage(chat_id, 'DEBUG MODE')
                     TelegramBot.sendMessage(chat_id, raw)
                 else:
