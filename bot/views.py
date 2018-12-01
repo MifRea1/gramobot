@@ -19,18 +19,18 @@ class Commands():
     debugOn = False
     def __init__(self):
         self.debugOn = False
-        return self
+
+    def help(self, chat_id):
+        TelegramBot.sendMessage(chat_id, 'Under development.')
+
     def start(self, chat_id):
         TelegramBot.sendMessage(chat_id, 'Поехали!')
-        return self
+
     def stop(self, chat_id):
         TelegramBot.sendMessage(chat_id, 'Приехали.')
-        return self
-    def help(self, chat_id):
-        return self
+
     def debug(self, chat_id):
         self.debugOn = not self.debugOn
-        return self
 
 class CommandReceiveView(View):
     def post(self, request, bot_token):
