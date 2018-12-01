@@ -16,13 +16,13 @@ logger = logging.getLogger('telegram.bot')
 
 isDebugModeOn = False
 
-def _start():
-    TelegramBot.sendMessage('Поехали!')
+def _start(chat_id):
+    TelegramBot.sendMessage(chat_id, 'Поехали!')
 
-def _stop():
-    TelegramBot.sendMessage('Приехали.')
+def _stop(chat_id):
+    TelegramBot.sendMessage(chat_id, 'Приехали.')
 
-def _help():
+def _help(chat_id):
     pass
 
 def _debug():
@@ -52,7 +52,7 @@ class CommandReceiveView(View):
             cmd = payload['message'].get('text')
             func = commands.get(cmd.split()[0].lower())
             if func:
-                TelegramBot.sendMessage(chat_id, func(), parse_mode='Markdown')
+                func(chat_id)
             else:
                 if isDebugModeOn:
                     TelegramBot.sendMessage(chat_id, raw)
