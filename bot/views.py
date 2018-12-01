@@ -19,12 +19,15 @@ class Commands():
     debug = False
     def start(chat_id):
         TelegramBot.sendMessage(chat_id, 'Поехали!')
+        return
     def stop(chat_id):
         TelegramBot.sendMessage(chat_id, 'Приехали.')
+        return
     def help(chat_id):
-        pass
+        return
     def debug(self):
         self.debug = not self.debug
+        return
 
 class CommandReceiveView(View):
     def post(self, request, bot_token):
