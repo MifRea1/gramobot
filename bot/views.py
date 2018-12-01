@@ -2,6 +2,7 @@ import json
 import logging
 import random
 import telepot
+import apiai
 from django.http import HttpResponseForbidden, HttpResponseBadRequest, JsonResponse
 from django.views.generic import View
 from django.views.decorators.csrf import csrf_exempt
@@ -35,7 +36,16 @@ class Commands():
                 TelegramBot.sendMessage(chat_id, random.choice(GREETINGS_RESPONSES))
                 break
         else:
-            TelegramBot.sendMessage(chat_id, text)
+            request = apiai.ApiAI('cb832d013ed74c798d2ceac69acd55b9').text_request()
+            request.lang = 'ru'
+            request.session_id = 'gramobot'
+            request.query = text
+            responseJson = json.loads(request.getresponse().read().decode('utf-8'))
+            response = responseJson['result']['fulfilment']['speech']
+            if response:
+                TelegramBot.sendMessage(chat_id, response)
+            else:
+                TelegramBot.sendMessage(chat_id, 'Ничего не понимаю...')
 
 class CommandReceiveView(View):
     def post(self, request, bot_token):

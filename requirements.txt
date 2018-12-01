@@ -3,3 +3,4 @@ gunicorn
 django-heroku
 django-environ
 telepot
+apiai
