@@ -14,6 +14,8 @@ TelegramBot = telepot.Bot(settings.TELEGRAM_BOT_TOKEN)
 
 logger = logging.getLogger('telegram.bot')
 
+GREETINGS_KEYWORDS = ('hi', 'hello', 'привет', 'прив')
+GREETINGS_RESPONSES = ['ни хао', 'бонжур', 'привет']
 
 class Commands():
     # def __init__(self):
@@ -27,12 +29,12 @@ class Commands():
 
     def stop(self, chat_id):
         TelegramBot.sendMessage(chat_id, 'Приехали.')
+
     def main(self, chat_id, text):
-        GREETINGS_KEYWORDS = ('hi', 'hello', 'привет', 'прив')
-        GREETINGS_RESPONSES = ['ни хао', 'бонжур', 'привет']
         for word in text.words:
             if word.lower() in GREETINGS_KEYWORDS:
                 TelegramBot.sendMessage(chat_id, random.choice(GREETINGS_RESPONSES))
+                break
         else:
             TelegramBot.sendMessage(chat_id, text)
 
