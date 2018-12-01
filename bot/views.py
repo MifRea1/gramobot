@@ -30,9 +30,8 @@ class Commands():
         TelegramBot.sendMessage(chat_id, 'Таймер установлен на ' + str(time) + ' минут.')
 
     def main(self, chat_id, text):
-        words = text.split(' ')
-        for word in words:
-            if word.lower() in GREETINGS_KEYWORDS:
+        for word in GREETINGS_KEYWORDS:
+            if word in text.lower():
                 TelegramBot.sendMessage(chat_id, random.choice(GREETINGS_RESPONSES))
                 break
         else:
