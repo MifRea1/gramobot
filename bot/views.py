@@ -33,10 +33,10 @@ class CommandReceiveView(View):
 
         c = Commands()
         commands = {
-            '/start': Commands.start,
-            '/stop': Commands.stop,
-            '/help': Commands.help,
-            '/debug': Commands.debug,
+            '/start': c.start,
+            '/stop': c.stop,
+            '/help': c.help,
+            '/debug': c.debug,
         }
 
         raw = request.body.decode('utf-8')
