@@ -55,6 +55,7 @@ class CommandReceiveView(View):
                 func(chat_id)
             else:
                 if isDebugModeOn:
+                    TelegramBot.sendMessage(chat_id, 'DEBUG MODE')
                     TelegramBot.sendMessage(chat_id, raw)
                 else:
                     TelegramBot.sendMessage(chat_id, cmd)
