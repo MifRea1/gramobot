@@ -1,6 +1,6 @@
 import json
 import logging
-import os
+# import os
 import telepot
 # from django.template.loader import render_to_string
 from django.http import HttpResponseForbidden, HttpResponseBadRequest, JsonResponse
@@ -16,8 +16,8 @@ logger = logging.getLogger('telegram.bot')
 
 
 class Commands():
-    def __init__(self):
-        os.environ["DEBUG"] = "0"
+    # def __init__(self):
+    #     os.environ["DEBUG"] = "0"
 
     def help(self, chat_id):
         TelegramBot.sendMessage(chat_id, 'Under development.')
@@ -28,13 +28,13 @@ class Commands():
     def stop(self, chat_id):
         TelegramBot.sendMessage(chat_id, 'Приехали.')
 
-    def debug(self, chat_id):
-        if os.environ["DEBUG"] == "0":
-            TelegramBot.sendMessage(chat_id, 'Включаем отладку.')
-            os.environ["DEBUG"] = "1"
-        else:
-            TelegramBot.sendMessage(chat_id, 'Всё отладили.')
-            os.environ["DEBUG"] = "0"
+    # def debug(self, chat_id):
+    #     if os.environ["DEBUG"] == "0":
+    #         TelegramBot.sendMessage(chat_id, 'Включаем отладку.')
+    #         os.environ["DEBUG"] = "1"
+    #     else:
+    #         TelegramBot.sendMessage(chat_id, 'Всё отладили.')
+    #         os.environ["DEBUG"] = "0"
 
 class CommandReceiveView(View):
     def post(self, request, bot_token):
@@ -46,7 +46,7 @@ class CommandReceiveView(View):
             '/start': c.start,
             '/stop': c.stop,
             '/help': c.help,
-            '/debug': c.debug,
+            # '/debug': c.debug,
         }
 
         raw = request.body.decode('utf-8')
@@ -65,10 +65,10 @@ class CommandReceiveView(View):
                 if func:
                     func(chat_id)
                 else:
-                    if os.environ["DEBUG"] == "0":
-                        TelegramBot.sendMessage(chat_id, raw)
-                    else:
-                        TelegramBot.sendMessage(chat_id, text)
+                    # if os.environ["DEBUG"] == "0":
+                    #     TelegramBot.sendMessage(chat_id, raw)
+                    # else:
+                    TelegramBot.sendMessage(chat_id, text)
 
         return JsonResponse({}, status=200)
 
