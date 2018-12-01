@@ -1,6 +1,6 @@
 import json
 import logging
-
+import os
 import telepot
 # from django.template.loader import render_to_string
 from django.http import HttpResponseForbidden, HttpResponseBadRequest, JsonResponse
@@ -16,9 +16,8 @@ logger = logging.getLogger('telegram.bot')
 
 
 class Commands():
-    debugOn = False
     def __init__(self):
-        self.debugOn = False
+        os.environ["DEBUG"] = "0"
 
     def help(self, chat_id):
         TelegramBot.sendMessage(chat_id, 'Under development.')
@@ -30,7 +29,12 @@ class Commands():
         TelegramBot.sendMessage(chat_id, 'Приехали.')
 
     def debug(self, chat_id):
-        self.debugOn = not self.debugOn
+        if os.environ["DEBUG"] == "0":
+            TelegramBot.sendMessage(chat_id, 'Включаем отладку.')
+            os.environ["DEBUG"] = "1"
+        else:
+            TelegramBot.sendMessage(chat_id, 'Всё отладили.')
+            os.environ["DEBUG"] = "0"
 
 class CommandReceiveView(View):
     def post(self, request, bot_token):
@@ -61,8 +65,7 @@ class CommandReceiveView(View):
                 if func:
                     func(chat_id)
                 else:
-                    if c.debugOn:
-                        TelegramBot.sendMessage(chat_id, 'DEBUG MODE')
+                    if os.environ["DEBUG"] == "0":
                         TelegramBot.sendMessage(chat_id, raw)
                     else:
                         TelegramBot.sendMessage(chat_id, text)
