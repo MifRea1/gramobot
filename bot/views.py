@@ -14,19 +14,17 @@ TelegramBot = telepot.Bot(settings.TELEGRAM_BOT_TOKEN)
 
 logger = logging.getLogger('telegram.bot')
 
-isDebugModeOn = False
 
-def _start(chat_id):
-    TelegramBot.sendMessage(chat_id, 'Поехали!')
-
-def _stop(chat_id):
-    TelegramBot.sendMessage(chat_id, 'Приехали.')
-
-def _help(chat_id):
-    pass
-
-def _debug():
-    isDebugModeOn = not isDebugModeOn
+class Commands():
+    isDebugModeOn = False
+    def start(chat_id):
+        TelegramBot.sendMessage(chat_id, 'Поехали!')
+    def stop(chat_id):
+        TelegramBot.sendMessage(chat_id, 'Приехали.')
+    def help(chat_id):
+        pass
+    def debug():
+        isDebugModeOn = not isDebugModeOn
 
 class CommandReceiveView(View):
     def post(self, request, bot_token):
@@ -34,10 +32,10 @@ class CommandReceiveView(View):
             return HttpResponseForbidden('Invalid token')
 
         commands = {
-            '/start': _start,
-            '/stop': _stop,
-            '/help': _help,
-            '/debug': _debug,
+            '/start': Commands.start,
+            '/stop': Commands.stop,
+            '/help': Commands.help,
+            '/debug': Commands.debug,
         }
 
         raw = request.body.decode('utf-8')
@@ -54,7 +52,7 @@ class CommandReceiveView(View):
             if func:
                 func(chat_id)
             else:
-                if isDebugModeOn:
+                if Commands.isDebugModeOn:
                     TelegramBot.sendMessage(chat_id, 'DEBUG MODE')
                     TelegramBot.sendMessage(chat_id, raw)
                 else:
