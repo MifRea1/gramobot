@@ -1,6 +1,7 @@
 import json
 import logging
 # import os
+import random
 import telepot
 # from django.template.loader import render_to_string
 from django.http import HttpResponseForbidden, HttpResponseBadRequest, JsonResponse
