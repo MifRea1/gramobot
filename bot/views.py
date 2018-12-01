@@ -16,7 +16,7 @@ logger = logging.getLogger('telegram.bot')
 
 
 class Commands():
-    isDebugModeOn = False
+    self.debug = False
     def start(chat_id):
         TelegramBot.sendMessage(chat_id, 'Поехали!')
     def stop(chat_id):
@@ -24,13 +24,14 @@ class Commands():
     def help(chat_id):
         pass
     def debug():
-        isDebugModeOn = not isDebugModeOn
+        self.debug = not self.__debug
 
 class CommandReceiveView(View):
     def post(self, request, bot_token):
         if bot_token != settings.TELEGRAM_BOT_TOKEN:
             return HttpResponseForbidden('Invalid token')
 
+        c = Commands()
         commands = {
             '/start': Commands.start,
             '/stop': Commands.stop,
@@ -52,7 +53,7 @@ class CommandReceiveView(View):
             if func:
                 func(chat_id)
             else:
-                if Commands.isDebugModeOn:
+                if c.debug:
                     TelegramBot.sendMessage(chat_id, 'DEBUG MODE')
                     TelegramBot.sendMessage(chat_id, raw)
                 else:
